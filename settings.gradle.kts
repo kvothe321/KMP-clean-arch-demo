@@ -37,3 +37,7 @@ include(":shared")
 include(":shared:data")
 include(":shared:core:domain")
 include(":shared:core:application")
+
+include(":feature:products")
+include(":feature:productdetails")
+include(":feature:favorites")
