@@ -1,11 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
-rootProject.name = "KmpDemo"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+rootProject.name = "build-logic"
 
 pluginManagement {
-    includeBuild("build-logic")
-
     repositories {
         google {
             mavenContent {
@@ -20,6 +17,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         google {
             mavenContent {
@@ -29,8 +27,8 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 
-include(":composeApp")
-include(":shared")
+include("convention")

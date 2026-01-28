@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import com.tlpcraft.kmp.demo.plugin.config.AndroidBuildConfig
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -14,7 +14,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -38,26 +38,29 @@ kotlin {
 }
 
 android {
-    namespace = "kmp.demo"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    namespace = AndroidBuildConfig.ModuleNamespace.ROOT_NAMESPACE
+    compileSdk = AndroidBuildConfig.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "kmp.demo"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        applicationId = AndroidBuildConfig.ModuleNamespace.ROOT_NAMESPACE
+        minSdk = AndroidBuildConfig.MIN_SDK
+        targetSdk = AndroidBuildConfig.TARGET_SDK
         versionCode = 1
         versionName = "1.0"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -67,4 +70,3 @@ android {
 dependencies {
     debugImplementation(libs.compose.uiTooling)
 }
-
