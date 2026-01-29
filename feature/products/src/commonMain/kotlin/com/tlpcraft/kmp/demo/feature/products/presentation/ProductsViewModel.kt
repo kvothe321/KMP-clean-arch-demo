@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ProductsViewModel(private val myUseCase: GetProductsUseCase) : ViewModel() {
+class ProductsViewModel(
+    private val getProductUseCase: GetProductsUseCase
+) : ViewModel() {
+
     private val _uiState: MutableStateFlow<ScreenUiState> = MutableStateFlow(ScreenUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
@@ -18,7 +21,7 @@ class ProductsViewModel(private val myUseCase: GetProductsUseCase) : ViewModel()
 
     private fun getProducts() {
         viewModelScope.launch {
-            myUseCase(10)
+            getProductUseCase(DEFAULT_PRODUCTS_LIMIT)
                 .onSuccess { products ->
                     _uiState.value = ScreenUiState.Success(products)
                 }
@@ -26,5 +29,9 @@ class ProductsViewModel(private val myUseCase: GetProductsUseCase) : ViewModel()
                     _uiState.value = ScreenUiState.Error(error.message ?: "Unknown error")
                 }
         }
+    }
+
+    companion object {
+        private const val DEFAULT_PRODUCTS_LIMIT = 10
     }
 }

@@ -13,6 +13,7 @@ class ProductRepositoryImpl(
 ) : ProductRepository {
 
     override suspend fun getProducts(limit: Int): Result<List<ProductPreview>> = runCatching {
+        // TODO: add limit input validation
         withContext(dispatcherProvider.io) {
             productRemoteDataSource.getProducts(limit).map { it.toProductPreview() }
         }
