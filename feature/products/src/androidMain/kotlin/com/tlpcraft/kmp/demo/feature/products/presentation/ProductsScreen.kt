@@ -8,9 +8,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,45 +30,71 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ProductsScreen(onProductClick: (Int) -> Unit = {}) {
     val viewModel = koinViewModel<ProductsViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
+    val isSearchMode by viewModel.isSearchMode.collectAsStateWithLifecycle()
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        when (val state = uiState) {
-            is ScreenUiState.Loading -> {
-                Text("Loading...")
+    Column(modifier = Modifier.fillMaxSize()) {
+        TextField(
+            value = searchQuery,
+            onValueChange = { viewModel.onSearchQueryChange(it) },
+            placeholder = { Text("Search products...") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            trailingIcon = {
+                if (isSearchMode) {
+                    IconButton(onClick = { viewModel.exitSearchMode() }) {
+                        Icon(Icons.Default.Close, "Clear search")
+                    }
+                }
             }
+        )
 
-            is ScreenUiState.Error -> {
-                Text("Error: ${state.message}")
-            }
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            when (val state = uiState) {
+                is ScreenUiState.Loading -> {
+                    Text("Loading...")
+                }
 
-            is ScreenUiState.Success -> {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(state.products) { product ->
-                        Card(
-                            modifier = Modifier.fillMaxWidth(0.8f),
-                            onClick = { onProductClick(product.id) }
-                        ) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                Text(product.title, style = MaterialTheme.typography.titleMedium)
-                                Text(
-                                    product.description,
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                                Text(
-                                    "Category: ${product.category}",
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                                Text(
-                                    "Price: $${product.price}",
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
+                is ScreenUiState.Error -> {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Error: ${state.message}")
+                        Button(onClick = { viewModel.refresh() }) {
+                            Text("Retry")
+                        }
+                    }
+                }
+
+                is ScreenUiState.Success -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        items(state.products) { product ->
+                            Card(
+                                modifier = Modifier.fillMaxWidth(0.8f),
+                                onClick = { onProductClick(product.id) }
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(product.title, style = MaterialTheme.typography.titleMedium)
+                                    Text(product.description, style = MaterialTheme.typography.bodySmall)
+                                    Text("Category: ${product.category}", style = MaterialTheme.typography.bodySmall)
+                                    Text("Price: \$${product.price}", style = MaterialTheme.typography.bodyMedium)
+                                }
+                            }
+                        }
+                        if (state.hasMore) {
+                            item {
+                                Button(
+                                    onClick = { viewModel.loadMore() },
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
+                                    Text("Load More")
+                                }
                             }
                         }
                     }

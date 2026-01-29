@@ -12,10 +12,15 @@ class ProductRepositoryImpl(
     private val productRemoteDataSource: ProductRemoteDataSource
 ) : ProductRepository {
 
-    override suspend fun getProducts(limit: Int): Result<List<ProductPreview>> = runCatching {
-        // TODO: add limit input validation
+    override suspend fun getProducts(limit: Int, skip: Int): Result<List<ProductPreview>> = runCatching {
         withContext(dispatcherProvider.io) {
-            productRemoteDataSource.getProducts(limit).map { it.toProductPreview() }
+            productRemoteDataSource.getProducts(limit, skip).map { it.toProductPreview() }
+        }
+    }
+
+    override suspend fun searchProducts(query: String, limit: Int, skip: Int): Result<List<ProductPreview>> = runCatching {
+        withContext(dispatcherProvider.io) {
+            productRemoteDataSource.searchProducts(query, limit, skip).map { it.toProductPreview() }
         }
     }
 

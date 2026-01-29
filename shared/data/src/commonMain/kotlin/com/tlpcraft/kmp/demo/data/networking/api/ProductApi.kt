@@ -6,10 +6,17 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import kotlin.text.get
 
 class ProductApi(private val httpClient: HttpClient) {
 
     suspend fun getProducts(limit: Int, skip: Int): List<Product> = httpClient.get("products") {
+        parameter("limit", limit)
+        parameter("skip", skip)
+    }.body<Products>().products
+
+    suspend fun searchProducts(query: String, limit: Int, skip: Int): List<Product> = httpClient.get("products/search") {
+        parameter("q", query)
         parameter("limit", limit)
         parameter("skip", skip)
     }.body<Products>().products

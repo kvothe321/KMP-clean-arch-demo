@@ -23,7 +23,7 @@ class FavoritesViewModel(
 
     private fun getFavoriteProducts() {
         viewModelScope.launch {
-            getFavoriteProductsUseCase()
+            getFavoriteProductsUseCase(Unit)
                 .collect { result ->
                     result
                         .onSuccess { products ->

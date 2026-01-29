@@ -18,7 +18,7 @@ class ProductDetailsViewModel(
     private val getFavoriteProductsUseCase: GetFavoriteProductsUseCase
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ScreenUiState> = MutableStateFlow(ScreenUiState.Loading)
+    private val _uiState = MutableStateFlow<ScreenUiState>(ScreenUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     private var currentProductId: Int = 0
@@ -30,7 +30,7 @@ class ProductDetailsViewModel(
 
     private fun observeFavorites() {
         viewModelScope.launch {
-            getFavoriteProductsUseCase().collect { result ->
+            getFavoriteProductsUseCase(Unit).collect { result ->
                 result.onSuccess { products ->
                     favoriteIds.clear()
                     favoriteIds.addAll(products.map { it.id })
@@ -63,13 +63,21 @@ class ProductDetailsViewModel(
     fun toggleFavorite() {
         val currentState = _uiState.value
         if (currentState is ScreenUiState.Success) {
+            val newFavoriteState = !currentState.isFavorite
+
+            // Optimistic update
+            _uiState.value = currentState.copy(isFavorite = newFavoriteState)
+
             viewModelScope.launch {
                 runCatching {
-                    if (currentState.isFavorite) {
-                        removeFavoriteProductUseCase(currentProductId)
-                    } else {
+                    if (newFavoriteState) {
                         addFavoriteProductUseCase(currentProductId)
+                    } else {
+                        removeFavoriteProductUseCase(currentProductId)
                     }
+                }.onFailure {
+                    // Revert on failure
+                    _uiState.value = currentState
                 }
             }
         }

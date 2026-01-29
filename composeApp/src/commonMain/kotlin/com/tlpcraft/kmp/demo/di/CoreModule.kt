@@ -6,6 +6,7 @@ import com.tlpcraft.kmp.demo.application.usecase.GetFavoriteProductsUseCase
 import com.tlpcraft.kmp.demo.application.usecase.GetProductDetailsUseCase
 import com.tlpcraft.kmp.demo.application.usecase.GetProductsUseCase
 import com.tlpcraft.kmp.demo.application.usecase.RemoveFavoriteProductUseCase
+import com.tlpcraft.kmp.demo.application.usecase.SearchProductsUseCase
 import com.tlpcraft.kmp.demo.domain.service.DispatcherProvider
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -20,4 +21,5 @@ val coreModule = module {
     factoryOf(::GetFavoriteProductsUseCase)
     factoryOf(::AddFavoriteProductUseCase)
     factoryOf(::RemoveFavoriteProductUseCase)
+    factoryOf(::SearchProductsUseCase)
 }
