@@ -16,5 +16,9 @@ gradlePlugin {
             id = "${project.group}.kotlin.multiplatform.library"
             implementationClass = "${project.group}.KotlinMultiplatformLibrary"
         }
+        register("androidComposeLibrary") {
+            id = "${project.group}.android.compose.library"
+            implementationClass = "${project.group}.AndroidComposeLibrary"
+        }
     }
 }

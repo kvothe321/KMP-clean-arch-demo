@@ -67,4 +67,5 @@ touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Plugins defined by the included build-logic
 tlpcraft-kotlin-multiplatform-library = { id = "com.tlpcraft.kmp.demo.plugin.convention.kotlin.multiplatform.library", version = "unspecified" }
+tlpcraft-android-compose-library = { id = "com.tlpcraft.kmp.demo.plugin.convention.android.compose.library", version = "unspecified" }
 

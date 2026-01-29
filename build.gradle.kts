@@ -9,4 +9,5 @@ plugins {
     alias(libs.plugins.touchlab.skie) apply false
 
     alias(libs.plugins.tlpcraft.kotlin.multiplatform.library) apply false
+    alias(libs.plugins.tlpcraft.android.compose.library) apply false
 }
