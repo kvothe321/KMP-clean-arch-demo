@@ -3,6 +3,9 @@ import com.tlpcraft.kmp.demo.plugin.config.AndroidBuildConfig.ModuleNamespace.FE
 
 plugins {
     id(libs.plugins.tlpcraft.kotlin.multiplatform.library.get().pluginId)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -12,7 +15,6 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(projects.shared)
             implementation(projects.shared.core.domain)
             implementation(projects.shared.core.application)
             implementation(projects.shared.data)

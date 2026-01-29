@@ -43,6 +43,8 @@ kotlin {
             implementation(projects.shared.core.application)
             implementation(projects.shared.data)
 
+            implementation(projects.feature.products)
+
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

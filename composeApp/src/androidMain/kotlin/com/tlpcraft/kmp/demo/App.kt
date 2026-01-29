@@ -1,66 +1,20 @@
 package com.tlpcraft.kmp.demo
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kmpdemo.composeapp.generated.resources.Res
-import kmpdemo.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
+import com.tlpcraft.kmp.demo.feature.products.presentation.ProductsScreen
 
 @Composable
 fun App() {
-    val viewModel = koinViewModel<MyViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = {
-                showContent = !showContent
-                if (showContent) {
-                    viewModel.doWhatever()
-                }
-            }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text(
-                        if (uiState.myValue.isNotEmpty()) {
-                            "ViewModel says: ${uiState.myValue}"
-                        } else {
-                            "Loading..."
-                        }
-                    )
-                }
-            }
+        Box(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+            ProductsScreen()
         }
     }
 }

@@ -1,14 +1,20 @@
 package com.tlpcraft.kmp.demo.data.repository
 
-import com.tlpcraft.kmp.demo.data.networking.api.ProductApi
-import com.tlpcraft.kmp.demo.domain.model.MyData
+import com.tlpcraft.kmp.demo.data.datasource.remote.ProductRemoteDataSource
+import com.tlpcraft.kmp.demo.data.mapper.toProductPreview
+import com.tlpcraft.kmp.demo.domain.model.ProductPreview
 import com.tlpcraft.kmp.demo.domain.repository.ProductRepository
+import com.tlpcraft.kmp.demo.domain.service.DispatcherProvider
+import kotlinx.coroutines.withContext
 
-class ProductRepositoryImpl(private val productApi: ProductApi) : ProductRepository {
+class ProductRepositoryImpl(
+    private val dispatcherProvider: DispatcherProvider,
+    private val productRemoteDataSource: ProductRemoteDataSource
+) : ProductRepository {
 
-    override suspend fun getProducts(): MyData {
-        val response = productApi.getProducts(3, 0)
-        println("Response: $response")
-        return MyData("Hello from MyRepositoryImpl!")
+    override suspend fun getProducts(limit: Int): Result<List<ProductPreview>> = runCatching {
+        withContext(dispatcherProvider.io) {
+            productRemoteDataSource.getProducts(limit).map { it.toProductPreview() }
+        }
     }
 }

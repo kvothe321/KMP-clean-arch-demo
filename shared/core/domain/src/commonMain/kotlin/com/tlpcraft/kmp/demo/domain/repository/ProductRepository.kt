@@ -1,7 +1,8 @@
 package com.tlpcraft.kmp.demo.domain.repository
 
-import com.tlpcraft.kmp.demo.domain.model.MyData
+import com.tlpcraft.kmp.demo.domain.model.ProductPreview
 
 interface ProductRepository {
-    suspend fun getProducts(): MyData
+
+    suspend fun getProducts(limit: Int): Result<List<ProductPreview>>
 }
