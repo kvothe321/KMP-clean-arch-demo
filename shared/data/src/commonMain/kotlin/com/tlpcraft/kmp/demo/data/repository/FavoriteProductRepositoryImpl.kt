@@ -7,7 +7,7 @@ import com.tlpcraft.kmp.demo.domain.model.ProductPreview
 import com.tlpcraft.kmp.demo.domain.repository.FavoriteProductRepository
 import com.tlpcraft.kmp.demo.domain.service.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class FavoriteProductRepositoryImpl(
@@ -16,11 +16,10 @@ class FavoriteProductRepositoryImpl(
     private val productRemoteDataSource: ProductRemoteDataSource
 ) : FavoriteProductRepository {
 
-    override fun getFavoriteProducts(): Flow<Result<List<ProductPreview>>> = flow {
-        emit(
+    override fun getFavoriteProducts(): Flow<Result<List<ProductPreview>>> = favoriteProductLocalDataSource.getFavoriteProductIds()
+        .map { favoriteIds ->
             runCatching {
                 withContext(dispatcherProvider.io) {
-                    val favoriteIds = favoriteProductLocalDataSource.getFavoriteProductIds()
                     favoriteIds.mapNotNull { id ->
                         runCatching {
                             productRemoteDataSource.getProduct(id).toProductPreview()
@@ -28,8 +27,7 @@ class FavoriteProductRepositoryImpl(
                     }
                 }
             }
-        )
-    }
+        }
 
     override suspend fun addFavoriteProduct(id: Int) {
         withContext(dispatcherProvider.io) {

@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -89,7 +90,11 @@ fun App() {
                             metadata = NavDisplay.transitionSpec {
                                 slideInHorizontally { it } togetherWith slideOutHorizontally { it }
                             }
-                        ) { ProductDetailsScreen(it.id) }
+                        ) { destination ->
+                            key(destination.id) {
+                                ProductDetailsScreen(destination.id)
+                            }
+                        }
                         entry<Destination.Favorites> { FavoritesScreen() }
                     }
                 )

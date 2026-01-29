@@ -25,6 +25,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.material.icons.core)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)

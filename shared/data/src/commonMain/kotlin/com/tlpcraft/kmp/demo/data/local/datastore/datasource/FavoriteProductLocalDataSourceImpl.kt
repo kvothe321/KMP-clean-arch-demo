@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.tlpcraft.kmp.demo.data.datasource.local.FavoriteProductLocalDataSource
 import com.tlpcraft.kmp.demo.domain.service.DispatcherProvider
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -15,14 +15,12 @@ class FavoriteProductLocalDataSourceImpl(
     private val dispatcherProvider: DispatcherProvider
 ) : FavoriteProductLocalDataSource {
 
-    override suspend fun getFavoriteProductIds(): List<Int> = withContext(dispatcherProvider.io) {
-        dataStore.data.map { preferences ->
-            preferences[FAVORITE_PRODUCT_IDS_KEY]
-                ?.split(",")
-                ?.filter { it.isNotBlank() }
-                ?.mapNotNull { it.toIntOrNull() }
-                ?: emptyList()
-        }.first()
+    override fun getFavoriteProductIds(): Flow<List<Int>> = dataStore.data.map { preferences ->
+        preferences[FAVORITE_PRODUCT_IDS_KEY]
+            ?.split(",")
+            ?.filter { it.isNotBlank() }
+            ?.mapNotNull { it.toIntOrNull() }
+            ?: emptyList()
     }
 
     override suspend fun addFavoriteProduct(id: Int) {

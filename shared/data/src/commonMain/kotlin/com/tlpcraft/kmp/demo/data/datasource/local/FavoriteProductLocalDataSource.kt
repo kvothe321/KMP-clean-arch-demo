@@ -1,7 +1,9 @@
 package com.tlpcraft.kmp.demo.data.datasource.local
 
+import kotlinx.coroutines.flow.Flow
+
 interface FavoriteProductLocalDataSource {
-    suspend fun getFavoriteProductIds(): List<Int>
+    fun getFavoriteProductIds(): Flow<List<Int>>
 
     suspend fun addFavoriteProduct(id: Int)
 

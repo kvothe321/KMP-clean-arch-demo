@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -55,6 +56,12 @@ fun FavoritesScreen() {
                                 Text(product.description, style = MaterialTheme.typography.bodySmall)
                                 Text("Category: ${product.category}", style = MaterialTheme.typography.bodySmall)
                                 Text("Price: \$${product.price}", style = MaterialTheme.typography.bodyMedium)
+                                Button(
+                                    onClick = { viewModel.removeFromFavorites(product.id) },
+                                    modifier = Modifier.padding(top = 8.dp)
+                                ) {
+                                    Text("Remove from Favorites")
+                                }
                             }
                         }
                     }
