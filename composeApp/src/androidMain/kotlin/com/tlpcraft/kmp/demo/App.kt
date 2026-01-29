@@ -1,7 +1,5 @@
 package com.tlpcraft.kmp.demo
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -31,7 +29,6 @@ import com.tlpcraft.kmp.demo.feature.products.presentation.ProductsScreen
 import com.tlpcraft.kmp.demo.navigation.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Composable
 fun App() {
     MaterialTheme {
@@ -45,7 +42,7 @@ fun App() {
                     title = { Text(currentKey.toString()) },
                     navigationIcon = {
                         if (currentScreen is Destination.ProductDetails) {
-                            IconButton(onClick = { backStack.removeLast() }) {
+                            IconButton(onClick = { backStack.removeAt(backStack.lastIndex) }) {
                                 Icon(Icons.AutoMirrored.Default.ArrowBack, "Back")
                             }
                         }

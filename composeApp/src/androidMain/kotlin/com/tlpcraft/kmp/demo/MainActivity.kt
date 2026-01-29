@@ -9,17 +9,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.tlpcraft.kmp.demo.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.getKoinApplicationOrNull
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        initKoin {
-            androidLogger()
-            androidContext(this@MainActivity)
+        if (getKoinApplicationOrNull() == null) {
+            initKoin()
         }
-
         setContent {
             App()
         }
