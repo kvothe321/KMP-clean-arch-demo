@@ -21,7 +21,7 @@ import com.tlpcraft.kmp.demo.feature.products.presentation.state.ScreenUiState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ProductsScreen() {
+fun ProductsScreen(onProductClick: (Int) -> Unit = {}) {
     val viewModel = koinViewModel<ProductsViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -45,7 +45,10 @@ fun ProductsScreen() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(state.products) { product ->
-                        Card(modifier = Modifier.fillMaxWidth(0.8f)) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(0.8f),
+                            onClick = { onProductClick(product.id) }
+                        ) {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Text(product.title, style = MaterialTheme.typography.titleMedium)
                                 Text(

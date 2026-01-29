@@ -3,7 +3,6 @@ import com.tlpcraft.kmp.demo.plugin.config.AndroidBuildConfig.ModuleNamespace.FE
 
 plugins {
     id(libs.plugins.tlpcraft.kotlin.multiplatform.library.get().pluginId)
-    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
