@@ -1,33 +1,45 @@
 import SwiftUI
-import Shared
+import ComposeApp
 
 struct ContentView: View {
-    @State private var showContent = false
+    private let viewModel: MyViewModel
+    @State private var uiState: ScreenUiState = ScreenUiState(myValue: "")
+
+    init() {
+        let dependencies = IosDependencies()
+        self.viewModel = dependencies.viewModel
+    }
+
     var body: some View {
         VStack {
             Button("Click me!") {
-                withAnimation {
-                    showContent = !showContent
-                }
+                viewModel.doWhatever()
             }
 
-            if showContent {
+            if !uiState.myValue.isEmpty {
                 VStack(spacing: 16) {
                     Image(systemName: "swift")
                         .font(.system(size: 200))
                         .foregroundColor(.accentColor)
-                    Text("SwiftUI: \(Greeting().greet())")
+                    Text("ViewModel says: \(uiState.myValue)")
                 }
                 .transition(.move(edge: .top).combined(with: .opacity))
+            } else {
+                Text("Loading...")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
+        .onAppear {
+            observeUiState()
+        }
     }
-}
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    private func observeUiState() {
+        Task {
+            for await state in viewModel.uiState {
+                uiState = state
+            }
+        }
     }
 }

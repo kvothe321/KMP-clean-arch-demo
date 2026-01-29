@@ -1,7 +1,11 @@
+@file:Suppress("UnstableApiUsage")
+
 rootProject.name = "KmpDemo"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-logic")
+
     repositories {
         google {
             mavenContent {
@@ -30,3 +34,10 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":shared")
+include(":shared:data")
+include(":shared:core:domain")
+include(":shared:core:application")
+
+include(":feature:products")
+include(":feature:productdetails")
+include(":feature:favorites")
