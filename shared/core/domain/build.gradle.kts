@@ -5,6 +5,14 @@ plugins {
     id(libs.plugins.tlpcraft.kotlin.multiplatform.library.get().pluginId)
 }
 
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.kotlinx.coroutines.core)
+        }
+    }
+}
+
 android {
     namespace = DOMAIN_NAMESPACE
 }

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.touchlab.skie)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 skie {
@@ -43,6 +44,10 @@ kotlin {
             implementation(projects.shared.core.application)
             implementation(projects.shared.data)
 
+            implementation(projects.feature.products)
+            implementation(projects.feature.productdetails)
+            implementation(projects.feature.favorites)
+
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -51,6 +56,13 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.material.icons.core)
+
+            // Navigation 3
+            implementation(libs.androidx.navigation3.ui)
+            implementation(libs.androidx.navigation3.runtime)
+            implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+            implementation(libs.kotlinx.serialization.core)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
