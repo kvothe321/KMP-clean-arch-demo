@@ -16,9 +16,12 @@ kotlin {
             implementation(projects.shared.core.domain)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.android)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization)
+            implementation(libs.androidx.datastore)
+            implementation(libs.androidx.datastore.preferences)
         }
 
         iosMain.dependencies {

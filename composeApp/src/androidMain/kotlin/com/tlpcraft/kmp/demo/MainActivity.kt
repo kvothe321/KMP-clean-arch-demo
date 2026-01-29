@@ -17,7 +17,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         if (getKoinApplicationOrNull() == null) {
-            initKoin()
+            initKoin {
+                androidLogger()
+                androidContext(applicationContext)
+            }
         }
         setContent {
             App()
