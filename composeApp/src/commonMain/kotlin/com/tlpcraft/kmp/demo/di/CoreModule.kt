@@ -1,6 +1,7 @@
 package com.tlpcraft.kmp.demo.di
 
 import com.tlpcraft.kmp.demo.application.serviceimpl.DispatcherProviderImpl
+import com.tlpcraft.kmp.demo.application.usecase.GetProductDetailsUseCase
 import com.tlpcraft.kmp.demo.application.usecase.GetProductsUseCase
 import com.tlpcraft.kmp.demo.domain.service.DispatcherProvider
 import org.koin.core.module.dsl.factoryOf
@@ -12,4 +13,5 @@ val coreModule = module {
     singleOf(::DispatcherProviderImpl) bind DispatcherProvider::class
 
     factoryOf(::GetProductsUseCase)
+    factoryOf(::GetProductDetailsUseCase)
 }

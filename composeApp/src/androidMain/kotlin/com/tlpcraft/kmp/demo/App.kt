@@ -2,6 +2,9 @@ package com.tlpcraft.kmp.demo
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -50,6 +53,7 @@ fun App() {
                 )
             },
             bottomBar = {
+                if (currentScreen is Destination.ProductDetails) return@Scaffold
                 NavigationBar {
                     NavigationBarItem(
                         selected = currentScreen is Destination.Products,
@@ -84,7 +88,11 @@ fun App() {
                                 backStack.add(Destination.ProductDetails(productId))
                             })
                         }
-                        entry<Destination.ProductDetails> { ProductDetailsScreen() }
+                        entry<Destination.ProductDetails>(
+                            metadata = NavDisplay.transitionSpec {
+                                slideInHorizontally { it } togetherWith slideOutHorizontally { it }
+                            }
+                        ) { ProductDetailsScreen(it.id) }
                         entry<Destination.Favorites> { FavoritesScreen() }
                     }
                 )

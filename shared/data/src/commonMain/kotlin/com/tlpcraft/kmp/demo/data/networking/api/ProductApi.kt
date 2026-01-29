@@ -13,4 +13,6 @@ class ProductApi(private val httpClient: HttpClient) {
         parameter("limit", limit)
         parameter("skip", skip)
     }.body<Products>().products
+
+    suspend fun getProduct(id: Int): Product = httpClient.get("products/$id").body()
 }

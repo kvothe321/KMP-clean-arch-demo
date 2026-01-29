@@ -18,4 +18,10 @@ class ProductRepositoryImpl(
             productRemoteDataSource.getProducts(limit).map { it.toProductPreview() }
         }
     }
+
+    override suspend fun getProduct(id: Int): Result<ProductPreview> = runCatching {
+        withContext(dispatcherProvider.io) {
+            productRemoteDataSource.getProduct(id).toProductPreview()
+        }
+    }
 }
