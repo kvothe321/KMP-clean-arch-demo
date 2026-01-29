@@ -6,5 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.touchlab.skie) apply false
+
     alias(libs.plugins.tlpcraft.kotlin.multiplatform.library) apply false
 }
