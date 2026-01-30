@@ -54,7 +54,11 @@ class ProductDetailsViewModel(
     }
 
     fun setProductId(id: Int) {
-        _productId.value = id
+        if (_productId.value != id) {
+            _productId.value = id
+            // Clears the previous state
+            _uiState.value = ProductDetailsUiState.Loading
+        }
     }
 
     private fun observeFavorites() {
