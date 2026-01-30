@@ -21,6 +21,9 @@ lifecycleViewmodelNav3 = "2.10.0"
 kotlinxSerializationCore = "1.9.0"
 materialIconsCore = "1.7.3"
 datastore = "1.2.0"
+mockk = "1.12.5"
+mokkery = "3.1.1"
+kover = "0.9.4"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -28,7 +31,10 @@ coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesCore" }
 junit = { module = "junit:junit", version.ref = "junit" }
+# Mockk common seems to not be working
+# mockk-common = { module = "io.mockk:mockk-common", version.ref = "mockk" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-testExt-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-testExt" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
@@ -49,6 +55,7 @@ koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin"
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewModel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -72,6 +79,8 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization" }
 touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
+mokkery = { id = "dev.mokkery", version.ref = "mokkery"}
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
 # Plugins defined by the included build-logic
 tlpcraft-kotlin-multiplatform-library = { id = "com.tlpcraft.kmp.demo.plugin.convention.kotlin.multiplatform.library", version = "unspecified" }
