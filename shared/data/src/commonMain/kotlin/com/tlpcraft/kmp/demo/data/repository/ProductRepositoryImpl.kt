@@ -1,7 +1,9 @@
 package com.tlpcraft.kmp.demo.data.repository
 
 import com.tlpcraft.kmp.demo.data.datasource.remote.ProductRemoteDataSource
+import com.tlpcraft.kmp.demo.data.mapper.toProduct
 import com.tlpcraft.kmp.demo.data.mapper.toProductPreview
+import com.tlpcraft.kmp.demo.domain.model.Product
 import com.tlpcraft.kmp.demo.domain.model.ProductPreview
 import com.tlpcraft.kmp.demo.domain.repository.ProductRepository
 import com.tlpcraft.kmp.demo.domain.service.DispatcherProvider
@@ -24,9 +26,9 @@ class ProductRepositoryImpl(
         }
     }
 
-    override suspend fun getProduct(id: Int): Result<ProductPreview> = runCatching {
+    override suspend fun getProduct(id: Int): Result<Product> = runCatching {
         withContext(dispatcherProvider.io) {
-            productRemoteDataSource.getProduct(id).toProductPreview()
+            productRemoteDataSource.getProduct(id).toProduct()
         }
     }
 }
