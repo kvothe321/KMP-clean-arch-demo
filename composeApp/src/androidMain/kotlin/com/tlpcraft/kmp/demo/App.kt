@@ -1,7 +1,8 @@
 package com.tlpcraft.kmp.demo
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -28,7 +30,6 @@ import com.tlpcraft.kmp.demo.feature.products.presentation.ProductsScreen
 import com.tlpcraft.kmp.demo.navigation.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Composable
 fun App() {
     MaterialTheme {
@@ -42,7 +43,7 @@ fun App() {
                     title = { Text(currentKey.toString()) },
                     navigationIcon = {
                         if (currentScreen is Destination.ProductDetails) {
-                            IconButton(onClick = { backStack.removeLast() }) {
+                            IconButton(onClick = { backStack.removeAt(backStack.lastIndex) }) {
                                 Icon(Icons.AutoMirrored.Default.ArrowBack, "Back")
                             }
                         }
@@ -50,6 +51,7 @@ fun App() {
                 )
             },
             bottomBar = {
+                if (currentScreen is Destination.ProductDetails) return@Scaffold
                 NavigationBar {
                     NavigationBarItem(
                         selected = currentScreen is Destination.Products,
@@ -84,7 +86,15 @@ fun App() {
                                 backStack.add(Destination.ProductDetails(productId))
                             })
                         }
-                        entry<Destination.ProductDetails> { ProductDetailsScreen() }
+                        entry<Destination.ProductDetails>(
+                            metadata = NavDisplay.transitionSpec {
+                                slideInHorizontally { it } togetherWith slideOutHorizontally { it }
+                            }
+                        ) { destination ->
+                            key(destination.id) {
+                                ProductDetailsScreen(destination.id)
+                            }
+                        }
                         entry<Destination.Favorites> { FavoritesScreen() }
                     }
                 )

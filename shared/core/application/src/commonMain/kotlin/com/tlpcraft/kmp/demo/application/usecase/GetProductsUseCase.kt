@@ -4,7 +4,8 @@ import com.tlpcraft.kmp.demo.domain.model.ProductPreview
 import com.tlpcraft.kmp.demo.domain.repository.ProductRepository
 import com.tlpcraft.kmp.demo.domain.usecase.UseCase
 
-class GetProductsUseCase(private val productRepository: ProductRepository) : UseCase<Int, Result<List<ProductPreview>>> {
+data class GetProductsParams(val limit: Int, val skip: Int)
 
-    override suspend fun invoke(param: Int): Result<List<ProductPreview>> = productRepository.getProducts(param)
+class GetProductsUseCase(private val productRepository: ProductRepository) : UseCase<GetProductsParams, Result<List<ProductPreview>>> {
+    override suspend fun invoke(param: GetProductsParams): Result<List<ProductPreview>> = productRepository.getProducts(param.limit, param.skip)
 }
